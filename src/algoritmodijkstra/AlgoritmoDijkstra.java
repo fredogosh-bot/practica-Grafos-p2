@@ -20,7 +20,7 @@ public class AlgoritmoDijkstra {
         vb--;
         
         if (va < 0 || vb < 0 || va > numVerts || vb > numVerts) 
-            throw new IllegalArgumentException("Índice de vértice fuera de rango.");
+            throw new IllegalArgumentException("Índice de vertice fuera de rango.");
         
         matAd[va][vb] = peso;
     }
@@ -37,16 +37,16 @@ public class AlgoritmoDijkstra {
    
     
    // --- ALGORITMO DE DIJKSTRA ---
-    public void dijkstra(int nodoOrigen) {
+    public void dijkstra(int nodoOrigen, int nodoDestino) {
         nodoOrigen--; // se ajusta el nodo origen
-        
+        nodoDestino--;
         int[] distancias = new int[numVerts];
         int[] padres = new int[numVerts];
         boolean[] visitados = new boolean[numVerts];
 
         // 1. Inicialización
         for (int i = 0; i < numVerts; i++) {
-            distancias[i] = Integer.MAX_VALUE; // Infinito (desconocido)
+            distancias[i] = Integer.MAX_VALUE; // Se crea un numero ridiculamentes grande para reflejar infinito
             padres[i] = -1; // Sin padre aún
             visitados[i] = false;
         }
@@ -81,7 +81,7 @@ public class AlgoritmoDijkstra {
         }
 
         // 3. Imprimir resultados (Requisito del profesor)
-        imprimirSolucionDijkstra(nodoOrigen, distancias, padres);
+        imprimirSolucionDijkstra(nodoOrigen, nodoDestino, distancias, padres);
     }
 
     // Método auxiliar para encontrar el nodo más cercano no visitado
@@ -99,19 +99,29 @@ public class AlgoritmoDijkstra {
     }
 
     // Método auxiliar para mostrar la salida bonita
-    private void imprimirSolucionDijkstra(int origen, int[] distancias, int[] padres) {
-        System.out.println("\nResultados Dijkstra desde vértice v" + (origen + 1) + ":");
+    private void imprimirSolucionDijkstra(int origen,int destino, int[] distancias, int[] padres) {
+        int indiceDestino = destino;
+
+        // Verificamos si el índice es válido para evitar errores
+        if (indiceDestino < 0 || indiceDestino >= numVerts) {
+            System.out.println("El vértice destino no existe.");
+            return;
+        }
         
-        for (int i = 0; i < numVerts; i++) {
-            if (i != origen) {
-                if (distancias[i] != Integer.MAX_VALUE) {
-                    System.out.print("Hacia v" + (i + 1) + ": Costo = " + distancias[i] + ", Camino: ");
-                    imprimirCamino(i, padres);
-                    System.out.println();
-                } else {
-                    System.out.println("Hacia v" + (i + 1) + ": No hay camino.");
-                }
-            }
+        System.out.println("Resultados Dijkstra desde vértice v" + (origen + 1) + " hacia vertice v" + (destino+1));
+
+        //Verificamos si hay camino (Si la distancia NO es infinita)
+        if (distancias[indiceDestino] != Integer.MAX_VALUE) {
+            // Imprimimos el formato exacto que pidió tu profesor
+            System.out.println("El camino mínimo de v" + (origen + 1) + " a v" + destino + " es " + distancias[indiceDestino]);
+            System.out.print("La secuencia de vértices es: ");
+            
+            // método recursivo para imprimir la ruta
+            imprimirCamino(indiceDestino, padres);
+            System.out.println(); 
+            
+        } else {
+            System.out.println("No hay camino posible entre v" + (origen + 1) + " y v" + destino);
         }
     }
 
@@ -120,8 +130,8 @@ public class AlgoritmoDijkstra {
         if (actual == -1) return;
         
         imprimirCamino(padres[actual], padres); // Llamada recursiva (va hacia atrás hasta el origen)
-        System.out.print("v" + (actual + 1) + (padres[actual] != -1 ? "-" : "")); // Imprime al volver
-        // Nota visual: Esto imprimirá algo tipo v1v3v5. Si quieres guiones exactos, requiere un ajuste menor de formato.
+        System.out.print("v" + (actual + 1) + (padres[actual] != -1 ? "," : "")); // Imprime al volver
+        
     }
 
     
@@ -129,28 +139,24 @@ public class AlgoritmoDijkstra {
     
     public static void main(String[] args) {
         int numeroDeNodos = 6;
-        GrafoMatriz g = new GrafoMatriz(numeroDeNodos);
+        GrafoMatriz g1 = new GrafoMatriz(numeroDeNodos);
         
-
-        System.out.println("--- Creando Grafo con Pesos ---");
-        // Ejemplo similar al que pide el profe
-        // v1 -> v2 (peso 5)
-        // v1 -> v3 (peso 10)
-        // v2 -> v4 (peso 15)
-        // v3 -> v5 (peso 20)
-        // etc...
         
-        // Conectamos v1 (1) con v6 (6) indirectamente para ver si halla el camino
-        g.nuevoArco(1, 2, 2); // De 1 a 2 cuesta 2
-        g.nuevoArco(1, 3, 4); // De 1 a 3 cuesta 4
-        g.nuevoArco(2, 4, 7); 
-        g.nuevoArco(3, 5, 3);
-        g.nuevoArco(4, 6, 1);
-        g.nuevoArco(5, 6, 5);
-        g.nuevoArco(2, 3, 1); // Camino cruzado
+        // se crean los tres grafos dirigidos y ponderados
+        //grafo1:
+        g1.nuevoArco(1, 2, 10); 
+        g1.nuevoArco(1, 5, 100); 
+        g1.nuevoArco(1, 4, 30); 
+        g1.nuevoArco(2, 3, 50);
+        g1.nuevoArco(3, 5, 10);
+        g1.nuevoArco(4, 3, 20);
+        g1.nuevoArco(4, 5, 60);
         
-        // Ejecutamos Dijkstra desde el nodo 1
-        g.dijkstra(1);
+        //grafo 2:
+        
+        
+        
+        g1.dijkstra(1,5);
     }
     
     
