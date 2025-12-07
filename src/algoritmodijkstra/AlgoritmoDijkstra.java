@@ -2,15 +2,15 @@ package algoritmodijkstra;
 
 
 public class AlgoritmoDijkstra {
-
-    public class GrafoMatriz {
+    
+    public static class GrafoMatriz {
 
     private int numVerts;
     private int[][] matAd;
     
     public GrafoMatriz(int numVerts) {
         this.numVerts = numVerts;
-        this.matAd = new int[numVerts][numVerts]; // Se crea con el tamaño correcto
+        this.matAd = new int[numVerts][numVerts]; // Se crea la matriz con el tamaño necesario
     }    
    
         
@@ -31,17 +31,10 @@ public class AlgoritmoDijkstra {
         if (va < 0 || vb < 0 || va >= numVerts || vb >= numVerts) 
             throw new IllegalArgumentException("Índice de vértice fuera de rango.");
         
-        return matAd[va][vb] == 1;
+        return matAd[va][vb] != 0;
     }
 
-    public void Pvalor(int va, int vb, int v) {
-
-        // Validación de índices (consistente con el método adyacente)
-        if (va < 0 || vb < 0 || va >= numVerts || vb >= numVerts) 
-            throw new IllegalArgumentException("Índice de vértice fuera de rango.");
-
-        matAd[va][vb] = v;
-    }
+   
     
    // --- ALGORITMO DE DIJKSTRA ---
     public void dijkstra(int nodoOrigen) {
@@ -64,7 +57,7 @@ public class AlgoritmoDijkstra {
         for (int i = 0; i < numVerts; i++) {
             
             // Buscar el nodo con la distancia mínima que NO haya sido visitado
-            int u = buscarMinimaDistancia(distancias, visitados);
+            int u = buscarDistanciaMinima(distancias, visitados);
             
             // Si es -1 o infinito, significa que no hay más nodos alcanzables
             if (u == -1 || distancias[u] == Integer.MAX_VALUE) break;
@@ -74,7 +67,7 @@ public class AlgoritmoDijkstra {
             // Revisar vecinos de 'u'
             for (int v = 0; v < numVerts; v++) {
                 // Si hay conexión (matAd[u][v] != 0) Y no está visitado
-                if (matAd[u][v] != 0 && !visitados[v]) {
+                if (adyacente(u,v) && !visitados[v]) {
                     
                     int nuevoCosto = distancias[u] + matAd[u][v];
                     
@@ -92,7 +85,7 @@ public class AlgoritmoDijkstra {
     }
 
     // Método auxiliar para encontrar el nodo más cercano no visitado
-    private int buscarMinimaDistancia(int[] distancias, boolean[] visitados) {
+    private int buscarDistanciaMinima(int[] distancias, boolean[] visitados) {
         int min = Integer.MAX_VALUE;
         int indiceMin = -1;
 
@@ -159,5 +152,8 @@ public class AlgoritmoDijkstra {
         // Ejecutamos Dijkstra desde el nodo 1
         g.dijkstra(1);
     }
+    
+    
+
     
 }
