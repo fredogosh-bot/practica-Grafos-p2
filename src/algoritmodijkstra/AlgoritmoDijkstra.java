@@ -45,7 +45,7 @@ public class AlgoritmoDijkstra {
     
    // --- ALGORITMO DE DIJKSTRA ---
     public void dijkstra(int nodoOrigen) {
-        nodoOrigen--; // Ajuste a índice 0-based
+        nodoOrigen--; // se ajusta el nodo origen
         
         int[] distancias = new int[numVerts];
         int[] padres = new int[numVerts];
@@ -135,7 +135,29 @@ public class AlgoritmoDijkstra {
 }
     
     public static void main(String[] args) {
-        // TODO code application logic here
+        int numeroDeNodos = 6;
+        GrafoMatriz g = new GrafoMatriz(numeroDeNodos);
+        
+
+        System.out.println("--- Creando Grafo con Pesos ---");
+        // Ejemplo similar al que pide el profe
+        // v1 -> v2 (peso 5)
+        // v1 -> v3 (peso 10)
+        // v2 -> v4 (peso 15)
+        // v3 -> v5 (peso 20)
+        // etc...
+        
+        // Conectamos v1 (1) con v6 (6) indirectamente para ver si halla el camino
+        g.nuevoArco(1, 2, 2); // De 1 a 2 cuesta 2
+        g.nuevoArco(1, 3, 4); // De 1 a 3 cuesta 4
+        g.nuevoArco(2, 4, 7); 
+        g.nuevoArco(3, 5, 3);
+        g.nuevoArco(4, 6, 1);
+        g.nuevoArco(5, 6, 5);
+        g.nuevoArco(2, 3, 1); // Camino cruzado
+        
+        // Ejecutamos Dijkstra desde el nodo 1
+        g.dijkstra(1);
     }
     
 }
