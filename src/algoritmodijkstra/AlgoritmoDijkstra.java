@@ -29,7 +29,7 @@ public class AlgoritmoDijkstra {
     public boolean adyacente(int va, int vb) {
 
         if (va < 0 || vb < 0 || va >= numVerts || vb >= numVerts) 
-            throw new IllegalArgumentException("Índice de vértice fuera de rango.");
+            throw new IllegalArgumentException("Índice de vertice fuera de rango.");
         
         return matAd[va][vb] != 0;
     }
@@ -56,7 +56,7 @@ public class AlgoritmoDijkstra {
         // 2. Ciclo principal
         for (int i = 0; i < numVerts; i++) {
             
-            // Buscar el nodo con la distancia mínima que NO haya sido visitado
+            // Buscar el nodo con la distancia minima que NO haya sido visitado
             int u = buscarDistanciaMinima(distancias, visitados);
             
             // Si es -1 o infinito, significa que no hay más nodos alcanzables
@@ -104,17 +104,17 @@ public class AlgoritmoDijkstra {
 
         // Verificamos si el índice es válido para evitar errores
         if (indiceDestino < 0 || indiceDestino >= numVerts) {
-            System.out.println("El vértice destino no existe.");
+            System.out.println("El vertice destino no existe.");
             return;
         }
         
-        System.out.println("Resultados Dijkstra desde vértice v" + (origen + 1) + " hacia vertice v" + (destino+1));
+        System.out.println("Resultados Dijkstra desde vertice v" + (origen + 1) + " hacia vertice v" + (destino+1));
 
         //Verificamos si hay camino (Si la distancia NO es infinita)
         if (distancias[indiceDestino] != Integer.MAX_VALUE) {
             // Imprimimos el formato exacto que pidió tu profesor
-            System.out.println("El camino mínimo de v" + (origen + 1) + " a v" + destino + " es " + distancias[indiceDestino]);
-            System.out.print("La secuencia de vértices es: ");
+            System.out.println("El camino minimo de v" + (origen + 1) + " a v" + destino + " es " + distancias[indiceDestino]);
+            System.out.print("La secuencia de vertices es: ");
             
             // método recursivo para imprimir la ruta
             imprimirCamino(indiceDestino, padres);
