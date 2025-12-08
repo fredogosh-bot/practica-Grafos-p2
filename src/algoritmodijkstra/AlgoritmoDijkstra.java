@@ -38,8 +38,7 @@ public class AlgoritmoDijkstra {
     
    // --- ALGORITMO DE DIJKSTRA ---
     public void dijkstra(int nodoOrigen, int nodoDestino) {
-        nodoOrigen--; // se ajusta el nodo origen
-        nodoDestino--;
+        
         int[] distancias = new int[numVerts];
         int[] padres = new int[numVerts];
         boolean[] visitados = new boolean[numVerts];
@@ -100,28 +99,22 @@ public class AlgoritmoDijkstra {
 
     // Método auxiliar para mostrar la salida bonita
     private void imprimirSolucionDijkstra(int origen,int destino, int[] distancias, int[] padres) {
-        int indiceDestino = destino;
-
-        // Verificamos si el índice es válido para evitar errores
-        if (indiceDestino < 0 || indiceDestino >= numVerts) {
-            System.out.println("El vertice destino no existe.");
-            return;
-        }
         
-        System.out.println("Resultados Dijkstra desde vertice v" + (origen + 1) + " hacia vertice v" + (destino+1));
+        
+        System.out.println("Resultados Dijkstra desde vertice v" + (origen) + " hacia vertice v" + (destino));
 
         //Verificamos si hay camino (Si la distancia NO es infinita)
-        if (distancias[indiceDestino] != Integer.MAX_VALUE) {
+        if (distancias[destino] != Integer.MAX_VALUE) {
             // Imprimimos el formato exacto que pidió tu profesor
-            System.out.println("El camino minimo de v" + (origen + 1) + " a v" + destino + " es " + distancias[indiceDestino]);
+            System.out.println("El camino minimo de v" + (origen) + " a v" + destino + " es " + distancias[destino]);
             System.out.print("La secuencia de vertices es: ");
             
             // método recursivo para imprimir la ruta
-            imprimirCamino(indiceDestino, padres);
+            imprimirCamino(destino, padres);
             System.out.println(); 
             
         } else {
-            System.out.println("No hay camino posible entre v" + (origen + 1) + " y v" + destino);
+            System.out.println("No hay camino posible entre v" + (origen) + " y v" + destino);
         }
     }
 
@@ -138,9 +131,9 @@ public class AlgoritmoDijkstra {
 }
     
     public static void main(String[] args) {
-        int numeroDeNodos = 6;
-        GrafoMatriz g1 = new GrafoMatriz(numeroDeNodos);
-        
+        GrafoMatriz g1 = new GrafoMatriz(6);
+        GrafoMatriz g2 = new GrafoMatriz(6);
+        GrafoMatriz g3 = new GrafoMatriz(6);
         
         // se crean los tres grafos dirigidos y ponderados
         //grafo1:
@@ -153,8 +146,22 @@ public class AlgoritmoDijkstra {
         g1.nuevoArco(4, 5, 60);
         
         //grafo 2:
+        g2.nuevoArco(1,2,100);
+        g2.nuevoArco(1,3,30);
+        g2.nuevoArco(2,3,20);
+        g2.nuevoArco(3,4,10);
+        g2.nuevoArco(3,5,60);
+        g2.nuevoArco(4,5,50);
+        g2.nuevoArco(4,2,15);
         
-        
+        g3.nuevoArco(1,2,3);
+        g3.nuevoArco(1,3,20);
+        g3.nuevoArco(1,4,13);
+        g3.nuevoArco(2,4,8);
+        g3.nuevoArco(4,3,2);
+        g3.nuevoArco(0,2,1);
+        g3.nuevoArco(0,1,2);
+        g3.nuevoArco(0,4,14);
         
         g1.dijkstra(1,5);
     }
